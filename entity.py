@@ -3,10 +3,10 @@ class Entity:
         self.conditions = conditions
         self.rect = rect
  
-    def check_event(self):
+    def check_event(self, event):
         pass
  
-    def draw(self):
+    def draw(self, screen):
         pass
  
     def collide_with(self, second_entity):
