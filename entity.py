@@ -1,13 +1,17 @@
 class Entity:
-    def __init__(self, conditions, rect):
+    def __init__(self, conditions, rect, imgState = 0):
         self.conditions = conditions
         self.rect = rect
+        self.imgState = imgState
  
     def check_event(self, event):
         pass
- 
+    
+    def next_state(self):
+        self.imgState = (self.imgState + 1) % len(self.conditions)
+    
     def draw(self, screen):
-        pass
+        screen.blit(self.conditions[self.imgState], self.rect)
 
     def collide_with(self, point): #Возвращает TRUE если точка соприкасается с ентити, в противном случае - FALSE
         checkCoordX = False
