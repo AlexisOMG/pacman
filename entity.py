@@ -8,6 +8,6 @@ class Entity:
  
     def draw(self, screen):
         pass
- 
+
     def collide_with(self, second_entity):
         pass

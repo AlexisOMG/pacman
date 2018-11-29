@@ -1,4 +1,5 @@
 import pygame
+from constants import STATES, GAMEPLAY_STATES
 
 class game():
 	def __init__(self, screen, screen_size):
@@ -6,6 +7,8 @@ class game():
 		self.screen_size = screen_size
 		self.objects = []
 		self.immediately_close = False
+		self.state = STATES["menu"]
+		self.game_state = GAMEPLAY_STATES["level_1"]
 
 	def process_events(self, events):
 		for event in events:
