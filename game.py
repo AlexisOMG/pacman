@@ -22,11 +22,11 @@ class game():
 	def set_menu(self):
 		self.objects = []
 		self.objects.append(Button([pygame.transform.scale(pygame.image.load("./Entity/Buttons/ButtonNotPressed.png"), (100, 25)),
-									pygame.transform.scale(pygame.image.load("./Entity/Buttons/ButtonPressed.png"), (100, 25))],
+									pygame.transform.scale(pygame.image.load("./Entity/Buttons/ButtonPreesed.png"), (100, 25))],
 								   [self.screen_size[0] // 2 - 50, self.screen_size[1] / 2 - 60, 100, 25], self.set_game))
 
 	def set_game(self):
-		pass
+		self.objects = []
 
 	def loop(self):
 		self.screen.fill((0, 0, 0))
