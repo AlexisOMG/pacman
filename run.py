@@ -1,4 +1,5 @@
 from game import game
+import pygame
 
 def main():
     SIZE = 424, 468
