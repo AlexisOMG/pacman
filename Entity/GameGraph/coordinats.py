@@ -1,3 +1,4 @@
+CordinatsOfVertex = [0] * 67
 CordinatsOfVertex [0] = (22, 20)
 CordinatsOfVertex [1] = (98, 20)
 CordinatsOfVertex [2] = (186, 20)

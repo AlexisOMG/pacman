@@ -1,8 +1,4 @@
 adjVertex = [0] * 67
-
-for i in range(67):
-  print ('adjVertex [{}] = []'.format (i))
-
 adjVertex [0] = [1, 6]
 adjVertex [1] = [0, 2, 7]
 adjVertex [2] = [9]
