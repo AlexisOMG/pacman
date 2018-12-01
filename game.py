@@ -1,6 +1,7 @@
 import pygame
 from constants import STATES, GAMEPLAY_STATES
 from button import Button
+from gamefield import GameField
 
 class game():
 	def __init__(self, screen, screen_size):
@@ -32,6 +33,8 @@ class game():
 								   [self.screen_size[0] // 2 - 50, self.screen_size[1] / 2, 100, 25], self.set_exit))
 	def set_game(self):
 		self.objects = []
+		self.objects.append(GameField([pygame.transform.scale(pygame.image.load("./Entity/Map.png"), 
+		                              (424, 468))], [0, 0, 424, 468]))
 
 	def set_settings(self):
 		self.objects = []
