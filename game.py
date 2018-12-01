@@ -24,9 +24,20 @@ class game():
 		self.objects.append(Button([pygame.transform.scale(pygame.image.load("./Entity/Buttons/ButtonNotPressed.png"), (100, 25)),
 									pygame.transform.scale(pygame.image.load("./Entity/Buttons/ButtonPreesed.png"), (100, 25))],
 								   [self.screen_size[0] // 2 - 50, self.screen_size[1] / 2 - 60, 100, 25], self.set_game))
-
+		self.objects.append(Button([pygame.transform.scale(pygame.image.load("./Entity/Buttons/ButtonSettings.png"), (100, 25)),
+									pygame.transform.scale(pygame.image.load("./Entity/Buttons/ButtonSettingsPresed.png"), (100, 25))],
+								   [self.screen_size[0] // 2 - 50, self.screen_size[1] / 2 - 30, 100, 25], self.set_settings))
+		self.objects.append(Button([pygame.transform.scale(pygame.image.load("./Entity/Buttons/ButtonExitNotPresed.png"), (100, 25)),
+									pygame.transform.scale(pygame.image.load("./Entity/Buttons/ButtonExitPresed.png"), (100, 25))],
+								   [self.screen_size[0] // 2 - 50, self.screen_size[1] / 2, 100, 25], self.set_exit))
 	def set_game(self):
 		self.objects = []
+
+	def set_settings(self):
+		self.objects = []
+
+	def set_exit(self):
+		self.immediately_close = True
 
 	def loop(self):
 		self.screen.fill((0, 0, 0))
