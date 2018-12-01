@@ -1,7 +1,10 @@
+import sys
+sys.path.append('./Entity/GameGraph/')
 import pygame
 from constants import STATES, GAMEPLAY_STATES
 from button import Button
 from gamefield import GameField
+from createGraph import Graph
 
 class game():
 	def __init__(self, screen, screen_size):
@@ -12,6 +15,7 @@ class game():
 		self.state = STATES["menu"]
 		self.game_state = GAMEPLAY_STATES["level_1"]
 		self.set_menu()
+		self.graph = Graph()
 
 	def process_events(self, events):
 		for event in events:
@@ -21,6 +25,7 @@ class game():
 				object.check_event(event)
 
 	def set_menu(self):
+		self.state = STATES["menu"]
 		self.objects = []
 		self.objects.append(Button([pygame.transform.scale(pygame.image.load("./Entity/Buttons/ButtonNotPressed.png"), (100, 25)),
 									pygame.transform.scale(pygame.image.load("./Entity/Buttons/ButtonPreesed.png"), (100, 25))],
@@ -32,11 +37,13 @@ class game():
 									pygame.transform.scale(pygame.image.load("./Entity/Buttons/ButtonExitPresed.png"), (100, 25))],
 								   [self.screen_size[0] // 2 - 50, self.screen_size[1] / 2, 100, 25], self.set_exit))
 	def set_game(self):
+		self.state = STATES["game"]
 		self.objects = []
-		self.objects.append(GameField([pygame.transform.scale(pygame.image.load("./Entity/Map.png"), 
+		self.objects.append(GameField([pygame.transform.scale(pygame.image.load("./Entity/Map.png"),
 		                              (424, 468))], [0, 0, 424, 468]))
 
 	def set_settings(self):
+		self.state = STATES["settings"]
 		self.objects = []
 
 	def set_exit(self):
@@ -46,6 +53,11 @@ class game():
 		self.screen.fill((0, 0, 0))
 		for object in self.objects:
 			object.draw(self.screen)
+
+##		if self.state == STATES["game"]:
+##			for v in self.graph.coordinates:                     ##Рисует вершины графа для проверки
+##				pygame.draw.circle(self.screen, (0, 255, 0), v, 1)
+
 		pygame.display.flip()
 
 	def game_logic(self):
