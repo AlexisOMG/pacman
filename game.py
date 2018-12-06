@@ -53,10 +53,9 @@ class game():
 		self.screen.fill((0, 0, 0))
 		for object in self.objects:
 			object.draw(self.screen)
-
-##		if self.state == STATES["game"]:
-##			for v in self.graph.coordinates:                     ##Рисует вершины графа для проверки
-##				pygame.draw.circle(self.screen, (0, 255, 0), v, 1)
+		if self.state == STATES["game"]:
+			for v in self.graph.coordinates:                     ##Рисует вершины графа для проверки
+				pygame.draw.circle(self.screen, (0, 255, 0), v, 1)
 
 		pygame.display.flip()
 
