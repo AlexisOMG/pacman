@@ -78,7 +78,7 @@ class game():
         self.objects = []
         self.objects.append(GameField([pygame.transform.scale(pygame.image.load("./Entity/Map.png"),
                                         (424, 468))], [0, 0, 424, 468]))
-        self.objects.append(Pacman(self.genPacmanImg(), [12, 10, 20, 20], 0, 10))
+        self.objects.append(Pacman(self.genPacmanImg(), [12, 10, 20, 20], 0, 1))
         cnt = -1
         for v in self.graph.coordinates:     # генерация фруктов
             cnt += 1
@@ -108,6 +108,9 @@ class game():
 
     def game_logic(self):
         if self.state == STATES["game"]:
+            self.objects[1].move()
+
+    def next_state(self):
+        if self.state == STATES["game"]:
             for el in self.objects:
                 el.next_state()
-            self.objects[1].move()
