@@ -78,7 +78,7 @@ class game():
         self.objects = []
         self.objects.append(GameField([pygame.transform.scale(pygame.image.load("./Entity/Map.png"),
                                         (424, 468))], [0, 0, 424, 468]))
-        self.objects.append(Pacman(self.genPacmanImg(), [12, 10, 20, 20]))
+        self.objects.append(Pacman(self.genPacmanImg(), [12, 10, 20, 20], 0, 10))
         cnt = -1
         for v in self.graph.coordinates:     # генерация фруктов
             cnt += 1
