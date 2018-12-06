@@ -1,10 +1,12 @@
 import sys
 sys.path.append('./Entity/GameGraph/')
 import pygame
+import random
 from constants import STATES, GAMEPLAY_STATES
 from button import Button
 from gamefield import GameField
 from createGraph import Graph
+from fruit import Fruit
 
 class game():
     def __init__(self, screen, screen_size):
@@ -43,6 +45,12 @@ class game():
         self.objects = []
         self.objects.append(GameField([pygame.transform.scale(pygame.image.load("./Entity/Map.png"),
                                         (424, 468))], [0, 0, 424, 468]))
+        for v in self.graph.coordinates:
+            print(v)
+            print("self objects ", len(self.objects))
+            i = random.randint(1, 5)
+            name = "./Entity/Fruit/fruit" + str(i) + ".png"
+            self.objects.append(Fruit([pygame.transform.scale(pygame.image.load(name), (10, 10))], [10, 10, v[0] + 5, v[1] + 5]))
 
     def set_settings(self):
         self.state = STATES["settings"]
