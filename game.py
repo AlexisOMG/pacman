@@ -1,11 +1,13 @@
 import sys
 sys.path.append('./Entity/GameGraph/')
 import pygame
+import random
 from constants import STATES, GAMEPLAY_STATES
 from button import Button
 from gamefield import GameField
 from createGraph import Graph
 from pacmanentity import Pacman
+from fruit import Fruit
 
 class game():
     def __init__(self, screen, screen_size):
@@ -69,6 +71,15 @@ class game():
         self.objects.append(GameField([pygame.transform.scale(pygame.image.load("./Entity/Map.png"),
                                         (424, 468))], [0, 0, 424, 468]))
         self.objects.append(Pacman(self.genPacmanImg(), [12, 10, 20, 20]))
+        cnt = -1
+        for v in self.graph.coordinates:     # генерация фруктов
+            cnt += 1
+            if ( 28 <= cnt <= 30):
+                continue
+            else:
+                i = random.randint(1, 5)
+                name = "./Entity/Fruit/fruit" + str(i) + ".png"
+                self.objects.append(Fruit([pygame.transform.scale(pygame.image.load(name), (15, 15))], [v[0] - 5, v[1] - 8, 10, 10]))
 
     def set_settings(self):
         self.state = STATES["settings"]
@@ -81,9 +92,9 @@ class game():
         self.screen.fill((0, 0, 0))
         for object in self.objects:
             object.draw(self.screen)
-        if self.state == STATES["game"]:
-            for v in self.graph.coordinates:                     ##Рисует вершины графа для проверки
-                 pygame.draw.circle(self.screen, (0, 255, 0), v, 1)
+        #if self.state == STATES["game"]:
+            # for v in self.graph.coordinates:                     ##Рисует вершины графа для проверки
+            #      pygame.draw.circle(self.screen, (0, 255, 0), v, 1)
 
         pygame.display.flip()
 
