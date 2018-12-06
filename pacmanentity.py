@@ -16,10 +16,10 @@ class Pacman(Entity):
 
     def move(self):
         if self.type == 0:
-            self.rect[1] += self.speed
+            self.rect[1] -= self.speed
         elif self.type == 1:
             self.rect[0] += self.speed
         elif self.type == 2:
-            self.rect[1] -= self.speed
+            self.rect[1] += self.speed
         elif self.type == 3:
             self.rect[0] -= self.speed

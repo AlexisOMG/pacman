@@ -26,6 +26,14 @@ class game():
                 self.immediately_close = True
             if event.type == pygame.KEYUP and event.key == pygame.K_ESCAPE:
                 self.set_menu()
+            if event.type == pygame.KEYUP and event.key == pygame.K_w:
+                self.objects[1].change_type(0)
+            if event.type == pygame.KEYUP and event.key == pygame.K_a:
+                self.objects[1].change_type(3)
+            if event.type == pygame.KEYUP and event.key == pygame.K_s:
+                self.objects[1].change_type(2)
+            if event.type == pygame.KEYUP and event.key == pygame.K_d:
+                self.objects[1].change_type(1)
             for object in self.objects:
                 object.check_event(event)
     
