@@ -5,6 +5,7 @@ from constants import STATES, GAMEPLAY_STATES
 from button import Button
 from gamefield import GameField
 from createGraph import Graph
+from pacmanentity import Pacman
 
 class game():
     def __init__(self, screen, screen_size):
@@ -25,7 +26,31 @@ class game():
                 self.set_menu()
             for object in self.objects:
                 object.check_event(event)
-
+    
+    def genPacmanImg(self):
+        conditions = []
+        conditions.append([])
+        for i in range(3):
+            conditions[0].append(pygame.transform.scale(pygame.image.load("./Entity/Pacman/pacman" + str(i + 1) + "Up.png"), (20, 20)))
+        conditions[0].append(pygame.transform.scale(pygame.image.load("./Entity/Pacman/pacman2Up.png"), (20, 20)))
+        conditions.append([])
+        for i in range(3):
+            conditions[1].append(pygame.transform.scale(pygame.image.load("./Entity/Pacman/pacman" + str(i + 1) + "Right.png"), (20, 20)))
+        conditions[1].append(pygame.transform.scale(pygame.image.load("./Entity/Pacman/pacman2Right.png"), (20, 20)))
+        conditions.append([])
+        for i in range(3):
+            conditions[2].append(pygame.transform.scale(pygame.image.load("./Entity/Pacman/pacman" + str(i + 1) + "Down.png"), (20, 20)))
+        conditions[2].append(pygame.transform.scale(pygame.image.load("./Entity/Pacman/pacman2Down.png"), (20, 20)))
+        conditions.append([])
+        for i in range(3):
+            conditions[3].append(pygame.transform.scale(pygame.image.load("./Entity/Pacman/pacman" + str(i + 1) + "Left.png"), (20, 20)))
+        conditions[3].append(pygame.transform.scale(pygame.image.load("./Entity/Pacman/pacman2Left.png"), (20, 20)))
+        conditions.append([])
+        for i in range(11):
+            conditions[4].append(pygame.transform.scale(pygame.image.load("./Entity/Pacman/pacmanDie" + str(i + 1) + ".png"), (20, 20)))
+        return conditions
+            
+    
     def set_menu(self):
         self.state = STATES["menu"]
         self.objects = []
@@ -43,6 +68,7 @@ class game():
         self.objects = []
         self.objects.append(GameField([pygame.transform.scale(pygame.image.load("./Entity/Map.png"),
                                         (424, 468))], [0, 0, 424, 468]))
+        self.objects.append(Pacman(self.genPacmanImg(), [12, 10, 20, 20]))
 
     def set_settings(self):
         self.state = STATES["settings"]
@@ -62,4 +88,7 @@ class game():
         pygame.display.flip()
 
     def game_logic(self):
-        pass
+        if self.state == STATES["game"]:
+            for el in self.objects:
+                el.next_state()
+            self.objects[1].move()
