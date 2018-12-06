@@ -45,12 +45,17 @@ class game():
         self.objects = []
         self.objects.append(GameField([pygame.transform.scale(pygame.image.load("./Entity/Map.png"),
                                         (424, 468))], [0, 0, 424, 468]))
-        for v in self.graph.coordinates:
-            print(v)
-            print("self objects ", len(self.objects))
-            i = random.randint(1, 5)
-            name = "./Entity/Fruit/fruit" + str(i) + ".png"
-            self.objects.append(Fruit([pygame.transform.scale(pygame.image.load(name), (10, 10))], [10, 10, v[0] + 5, v[1] + 5]))
+        cnt = -1
+        for v in self.graph.coordinates:     # генерация фруктов 
+            cnt += 1
+            if ( 28 <= cnt <= 30):
+                continue
+            else:
+                print(v)
+                print("self objects ", len(self.objects))
+                i = random.randint(1, 5)
+                name = "./Entity/Fruit/fruit" + str(i) + ".png"
+                self.objects.append(Fruit([pygame.transform.scale(pygame.image.load(name), (15, 15))], [v[0] - 5, v[1] - 8, 10, 10]))
 
     def set_settings(self):
         self.state = STATES["settings"]
