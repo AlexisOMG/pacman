@@ -70,7 +70,7 @@ class game():
     #         for v in self.graph.coordinates:                     ##Рисует вершины графа для проверки
     #              pygame.draw.circle(self.screen, (0, 255, 0), v, 1)
 
-        pygame.display.flip()
+    #    pygame.display.flip()
 
     def game_logic(self):
         pass
