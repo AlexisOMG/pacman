@@ -123,7 +123,7 @@ class game():
         #if self.state == STATES["game"]:
             # for v in self.graph.coordinates:                     ##Рисует вершины графа для проверки
             #      pygame.draw.circle(self.screen, (0, 255, 0), v, 1)
-
+        self.counter.draw(self.screen)
         pygame.display.flip()
 
     def game_logic(self):
@@ -141,7 +141,6 @@ class game():
                 if self.objects[1].collide_with(self.graph.coordinates[self.finish_v]):
                     self.objects[self.finish_v + 2].change_type(1)
                     self.counter.updatePoints(10)
-                    self.counter.draw(self.screen)
 
     def check_finish(self):
         if self.objects[1].collide_with(self.graph.coordinates[self.finish_v]):
