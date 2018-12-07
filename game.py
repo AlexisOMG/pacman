@@ -124,3 +124,6 @@ class game():
         if self.state == STATES["game"]:
             for el in self.objects:
                 el.next_state()
+
+    def eat_seed(self):
+        pass
