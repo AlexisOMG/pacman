@@ -134,7 +134,10 @@ class game():
                 el.next_state()
 
     def eat_seed(self):
-        pass
+        if self.state == STATES["game"]:
+            if not(self.objects[self.finish_v + 2].getType()):
+                if self.objects[1].collide_with(self.graph.coordinates[self.finish_v]):
+                    self.objects[self.finish_v + 2].change_type(1)
 
     def check_finish(self):
         if self.objects[1].collide_with(self.graph.coordinates[self.finish_v]):
