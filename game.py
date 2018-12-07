@@ -83,6 +83,7 @@ class game():
                                     pygame.transform.scale(pygame.image.load("./Entity/Buttons/ButtonExitPresed.png"), (100, 25))],
                                     [self.screen_size[0] // 2 - 50, self.screen_size[1] / 2, 100, 25], self.set_exit))
     def set_game(self):
+        self.counter = Counter()
         self.state = STATES["game"]
         self.objects = []
         self.objects.append(GameField([pygame.transform.scale(pygame.image.load("./Entity/Map.png"),
@@ -123,7 +124,8 @@ class game():
         #if self.state == STATES["game"]:
             # for v in self.graph.coordinates:                     ##Рисует вершины графа для проверки
             #      pygame.draw.circle(self.screen, (0, 255, 0), v, 1)
-        self.counter.draw(self.screen)
+        if self.state == STATES["game"]:
+            self.counter.draw(self.screen)
         pygame.display.flip()
 
     def game_logic(self):
