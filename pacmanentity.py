@@ -17,12 +17,23 @@ class Pacman(Entity):
     def get_type(self):
         return self.type
 
+    def stop(self):
+        self.IsMoving = False
+
+    def start_moving(self):
+        self.IsMoving = True
+
+    def get_is_moving(self):
+        return self.IsMovingpyth
+
+
     def move(self):
-        if self.type == 0:
-            self.rect[1] -= self.speed
-        elif self.type == 1:
-            self.rect[0] += self.speed
-        elif self.type == 2:
-            self.rect[1] += self.speed
-        elif self.type == 3:
-            self.rect[0] -= self.speed
+        if self.IsMoving:
+            if self.type == 0:
+                self.rect[1] -= self.speed
+            elif self.type == 1:
+                self.rect[0] += self.speed
+            elif self.type == 2:
+                self.rect[1] += self.speed
+            elif self.type == 3:
+                self.rect[0] -= self.speed

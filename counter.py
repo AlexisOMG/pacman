@@ -21,7 +21,7 @@ class Counter():
 
     def updatePoints(self, cnt):
         self.points += cnt
-        updateHightScore()
+        self.updateHightScore()
 
     def updateHeals(self):
         self.heals -= 1
@@ -29,5 +29,5 @@ class Counter():
     def updateHightScore(self):
         if (self.points > self.hightScore):
             my_file = open("hightScore.txt", 'w')
-            my_file.write(self.points)
+            my_file.write(str(self.points))
             my_file.close()

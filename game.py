@@ -28,6 +28,7 @@ class game():
         self.turn_up = False
         self.turn_down = False
         self.counter = Counter()
+        self.in_finish = False
 
     def process_events(self, events):
         for event in events:
@@ -130,7 +131,10 @@ class game():
 
     def game_logic(self):
         if self.state == STATES["game"]:
+            self.eat_seed()
+            self.check_finish()
             self.objects[1].move()
+
 
     def next_state(self):
         if self.state == STATES["game"]:
@@ -146,10 +150,12 @@ class game():
 
     def check_finish(self):
         if self.objects[1].collide_with(self.graph.coordinates[self.finish_v]):
+            self.in_finish = True
             from_coord = self.graph.coordinates[self.finish_v]
             adjVertex = self.graph.adjVertex[self.finish_v]
             self.turn_right = self.turn_left = self.turn_down = self.turn_up = False
-            for v in adjVertex:
+            for v_num in adjVertex:
+                v = self.graph.coordinates[v_num]
                 move_vector = [v[0] - from_coord[0], v[1] - from_coord[1]]
                 if move_vector[0] > 0:
                     self.turn_right = True
@@ -159,9 +165,32 @@ class game():
                     self.turn_down = True
                 if move_vector[1] < 0:
                     self.turn_up = True
+            pacman_type = self.objects[1].get_type()
+            if pacman_type == 0 and not self.turn_up:
+                self.objects[1].stop()
+            if pacman_type == 1 and not self.turn_right:
+                self.objects[1].stop()
+            if pacman_type == 2 and not self.turn_down:
+                self.objects[1].stop()
+            if pacman_type == 3 and not self.turn_left:
+                self.objects[1].stop()
+            if pacman_type == 0 and self.turn_up:
+                self.objects[1].move()
+            if pacman_type == 1 and self.turn_right:
+                self.objects[1].move()
+            if pacman_type == 2 and self.turn_down:
+                self.objects[1].move()
+            if pacman_type == 3 and self.turn_left:
+                self.objects[1].move()
+
         else:
+            if self.in_finish:
+                self.in_finish = False
+                self.choose_next_target()
+            from_coord = self.graph.coordinates[self.start_v]
+            to_coord = self.graph.coordinates[self.finish_v]
             self.turn_right = self.turn_left = self.turn_down = self.turn_up = False
-            move_vector = [self.finish_v[0] - self.start_v[0], self.finish_v[1] - self.start_v[1]]
+            move_vector = [to_coord[0] - from_coord[0], to_coord[1] - from_coord[1]]
             if move_vector[0] > 0:
                 self.turn_right = True
                 self.turn_left = True
@@ -174,3 +203,18 @@ class game():
             if move_vector[1] < 0:
                 self.turn_down = True
                 self.turn_up = True
+
+    def choose_next_target(self):
+        self.start_v = self.finish_v
+        from_coord = self.graph.coordinates[self.start_v]
+        for v_num in self.graph.adjVertex[self.start_v]:
+            v = self.graph.coordinates[v_num]
+            move_vector = [v[0] - from_coord[0], v[1] - from_coord[1]]
+            if move_vector[0] > 0 and self.objects[1].get_type() == 1:
+                self.finish_v = v_num
+            if move_vector[0] < 0 and self.objects[1].get_type() == 3:
+                self.finish_v = v_num
+            if move_vector[1] > 0 and self.objects[1].get_type() == 2:
+                self.finish_v = v_num
+            if move_vector[1] < 0 and self.objects[1].get_type() == 0:
+                self.finish_v = v_num
