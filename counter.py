@@ -8,16 +8,16 @@ class Counter():
         self.heals = 3
         self.level = 1
         self.points = 0
-        self.font = pygame.font.SysFont('Comic Sans MS', 30)
+        self.font = pygame.font.SysFont('Comic Sans MS', 15)
     def draw(self, screen):
         text = self.font.render("Points " + str(self.points), 1, (255, 255, 255))
-        screen.blit(text, (100, 100))
+        screen.blit(text, (10, 450))
 
         text = self.font.render("Hight Score " + str(self.hightScore), 1, (255, 255, 255))
-        screen.blit(text, (200, 100))
+        screen.blit(text, (10, 470))
 
         text = self.font.render("Heal " + str(self.heals), 1, (255, 255, 255))
-        screen.blit(text, (300, 100))
+        screen.blit(text, (10, 490))
 
     def updatePoints(self, cnt):
         self.points += cnt
