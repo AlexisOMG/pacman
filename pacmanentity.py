@@ -14,6 +14,9 @@ class Pacman(Entity):
         self.type = type
         self.conditions = self.allConditions[type]
 
+    def get_type(self):
+        return self.type
+
     def move(self):
         if self.type == 0:
             self.rect[1] -= self.speed

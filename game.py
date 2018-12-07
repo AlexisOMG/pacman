@@ -137,4 +137,32 @@ class game():
         pass
 
     def check_finish(self):
-        pass
+        if self.objects[1].collide_with(self.graph.coordinates[self.finish_v]):
+            from_coord = self.graph.coordinates[self.finish_v]
+            adjVertex = self.graph.adjVertex[self.finish_v]
+            self.turn_right = self.turn_left = self.turn_down = self.turn_up = False
+            for v in adjVertex:
+                move_vector = [v[0] - from_coord[0], v[1] - from_coord[1]]
+                if move_vector[0] > 0:
+                    self.turn_right = True
+                if move_vector[0] < 0:
+                    self.turn_left = True
+                if move_vector[1] > 0:
+                    self.turn_down = True
+                if move_vector[1] < 0:
+                    self.turn_up = True
+        else:
+            self.turn_right = self.turn_left = self.turn_down = self.turn_up = False
+            move_vector = [self.finish_v[0] - self.start_v[0], self.finish_v[1] - self.start_v[1]]
+            if move_vector[0] > 0:
+                self.turn_right = True
+                self.turn_left = True
+            if move_vector[0] < 0:
+                self.turn_left = True
+                self.turn_right = True
+            if move_vector[1] > 0:
+                self.turn_down = True
+                self.turn_up = True
+            if move_vector[1] < 0:
+                self.turn_down = True
+                self.turn_up = True
