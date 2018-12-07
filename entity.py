@@ -23,3 +23,6 @@ class Entity:
             checkCoordX = True
 
         return checkCoordX * checkCoordY
+    
+    def getRect(self):
+        return self.rect
