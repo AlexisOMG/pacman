@@ -9,6 +9,7 @@ from createGraph import Graph
 from pacmanentity import Pacman
 from fruit import Fruit
 from seed import Seed
+from counter import Counter
 
 class game():
     def __init__(self, screen, screen_size):
@@ -26,6 +27,7 @@ class game():
         self.turn_right = False
         self.turn_up = False
         self.turn_down = False
+        self.counter = Counter()
 
     def process_events(self, events):
         for event in events:
@@ -138,6 +140,8 @@ class game():
             if not(self.objects[self.finish_v + 2].getType()):
                 if self.objects[1].collide_with(self.graph.coordinates[self.finish_v]):
                     self.objects[self.finish_v + 2].change_type(1)
+                    self.counter.updatePoints(10)
+                    self.counter.draw(self.screen)
 
     def check_finish(self):
         if self.objects[1].collide_with(self.graph.coordinates[self.finish_v]):

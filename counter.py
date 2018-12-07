@@ -1,6 +1,5 @@
-class counter():
-    def __init__(self, hightScore, heals, level, points, font):
-        my_file = open("hightScore.txt")
+class Counter():
+    def __init__(self):
         self.hightScore = my_file.read()
         my_file.close()
         self.heals = 3
