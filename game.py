@@ -20,6 +20,12 @@ class game():
         self.game_state = GAMEPLAY_STATES["level_1"]
         self.set_menu()
         self.graph = Graph()
+        self.start_v = 0
+        self.finish_v = 0
+        self.turn_left = False
+        self.turn_right = False
+        self.turn_up = False
+        self.turn_down = False
 
     def process_events(self, events):
         for event in events:
@@ -80,6 +86,8 @@ class game():
         self.objects.append(GameField([pygame.transform.scale(pygame.image.load("./Entity/Map.png"),
                                         (424, 468))], [0, 0, 424, 468]))
         self.objects.append(Pacman(self.genPacmanImg(), [12, 10, 20, 20], 0, 1))
+        self.start_v = 0
+        self.finish_v = 1
         cnt = -1
         for v in self.graph.coordinates:
             cnt += 1
@@ -126,4 +134,7 @@ class game():
                 el.next_state()
 
     def eat_seed(self):
+        pass
+
+    def check_finish(self):
         pass
