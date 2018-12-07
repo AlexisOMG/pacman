@@ -8,6 +8,7 @@ from gamefield import GameField
 from createGraph import Graph
 from pacmanentity import Pacman
 from fruit import Fruit
+from seed import Seed
 
 class game():
     def __init__(self, screen, screen_size):
@@ -80,14 +81,23 @@ class game():
                                         (424, 468))], [0, 0, 424, 468]))
         self.objects.append(Pacman(self.genPacmanImg(), [12, 10, 20, 20], 0, 1))
         cnt = -1
-        for v in self.graph.coordinates:     # генерация фруктов
+        for v in self.graph.coordinates:
             cnt += 1
-            if ( 28 <= cnt <= 30):
-                continue
-            else:
-                i = random.randint(1, 5)
-                name = "./Entity/Fruit/fruit" + str(i) + ".png"
-                self.objects.append(Fruit([pygame.transform.scale(pygame.image.load(name), (15, 15))], [v[0] - 5, v[1] - 8, 10, 10]))
+            if cnt < 28 or cnt > 30:
+                name_on = "./Entity/Fruit/ SeedOn.png"
+                name_off = "./Entity/Fruit/seedOff.png"
+                self.objects.append(Seed([[pygame.transform.scale(pygame.image.load(name_on), (2, 2))],
+                                         [pygame.transform.scale(pygame.image.load(name_off), (2, 2))]],
+                                         [v[0] - 1, v[1] - 1, 2, 2]))
+
+##        for v in self.graph.coordinates:     # генерация фруктов
+##            cnt += 1
+##            if ( 28 <= cnt <= 30):
+##                continue
+##            else:
+##                i = random.randint(1, 5)
+##                name = "./Entity/Fruit/fruit" + str(i) + ".png"
+##                self.objects.append(Fruit([pygame.transform.scale(pygame.image.load(name), (15, 15))], [v[0] - 5, v[1] - 8, 10, 10]))
 
     def set_settings(self):
         self.state = STATES["settings"]

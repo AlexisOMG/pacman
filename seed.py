@@ -4,8 +4,6 @@ from entity import Entity
 class Seed(Entity):
     def __init__(self, conditions, rect, imgState = 0):
         super().__init__([], rect, imgState)
-        self.speed = speed
-        self.IsMoving = True
         self.allConditions = conditions
         self.conditions = []
         self.change_type(0) #0 - семечко не съедено, 1 - семечко съедено
