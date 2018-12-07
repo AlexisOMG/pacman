@@ -1,4 +1,5 @@
 import pygame
+pygame.init()
 class Counter():
     def __init__(self):
         my_file = open("hightScore.txt", 'r')
