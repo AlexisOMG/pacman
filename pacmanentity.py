@@ -24,7 +24,10 @@ class Pacman(Entity):
         self.IsMoving = True
 
     def get_is_moving(self):
-        return self.IsMovingpyth
+        return self.IsMoving
+
+    def set_coordinates(self, x, y):
+        self.rect[0], self.rect[1] = x, y
 
 
     def move(self):
@@ -37,3 +40,19 @@ class Pacman(Entity):
                 self.rect[1] += self.speed
             elif self.type == 3:
                 self.rect[0] -= self.speed
+
+    def collide_with(self, point): #Возвращает TRUE если точка соприкасается с ентити, в противном случае - FALSE
+        checkCoordX = False
+        checkCoordY = False
+        rect = self.rect[:]
+        ##rect[0] += self.rect[2] // 4
+        ##rect[1] += self.rect[3] // 4
+        ##rect[2] = rect[2] // 2
+        ##rect[3] = rect[3] // 2
+
+        if point[1] >= rect[1] and point[1] <= rect[1] + rect[3]: #проверка на соприкосновение по оси y
+            checkCoordY = True
+        if point[0] >= rect[0] and point[0] <= rect[0] + rect[2]: #проверка на соприкосновение по оси x
+            checkCoordX = True
+
+        return checkCoordX * checkCoordY
