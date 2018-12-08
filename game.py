@@ -107,12 +107,13 @@ class game():
         cnt = -1
         for v in self.graph.coordinates:
             cnt += 1
-            if cnt < 28 or cnt > 30:
-                name_on = "./Entity/Fruit/ SeedOn.png"
-                name_off = "./Entity/Fruit/seedOff.png"
-                self.objects.append(Seed([[pygame.transform.scale(pygame.image.load(name_on), (2, 2))],
-                                         [pygame.transform.scale(pygame.image.load(name_off), (2, 2))]],
-                                         [v[0] - 1, v[1] - 1, 2, 2]))
+            name_on = "./Entity/Fruit/ SeedOn.png"
+            name_off = "./Entity/Fruit/seedOff.png"
+            self.objects.append(Seed([[pygame.transform.scale(pygame.image.load(name_on), (2, 2))],
+                                     [pygame.transform.scale(pygame.image.load(name_off), (2, 2))]],
+                                     [v[0] - 1, v[1] - 1, 2, 2]))
+            if 28 <= cnt <= 30:
+                self.objects[-1].change_type(1)
 
 ##        for v in self.graph.coordinates:     # генерация фруктов
 ##            cnt += 1
