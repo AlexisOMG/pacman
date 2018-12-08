@@ -2,7 +2,7 @@ def createAdjVertex():
     adjVertex = [0] * 67
     adjVertex [0] = [1, 6]
     adjVertex [1] = [0, 2, 7]
-    adjVertex [2] = [9]
+    adjVertex [2] = [1, 9]
     adjVertex [3] = [4, 10]
     adjVertex [4] = [3, 5, 12]
     adjVertex [5] = [4, 13]

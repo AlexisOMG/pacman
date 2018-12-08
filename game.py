@@ -36,19 +36,31 @@ class game():
                 self.immediately_close = True
             if event.type == pygame.KEYUP and event.key == pygame.K_ESCAPE:
                 self.set_menu()
-            if event.type == pygame.KEYUP and event.key == pygame.K_w:
-                self.objects[1].change_type(0)
-            if event.type == pygame.KEYUP and event.key == pygame.K_a:
-                self.objects[1].change_type(3)
-            if event.type == pygame.KEYUP and event.key == pygame.K_s:
-                self.objects[1].change_type(2)
-            if event.type == pygame.KEYUP and event.key == pygame.K_d:
-                self.objects[1].change_type(1)
+            if event.type == pygame.KEYUP and event.key == pygame.K_w and self.turn_up:
+                if self.objects[1].get_type() != 0:
+                    self.objects[1].change_type(0)
+                    if not self.in_finish:
+                        self.start_v, self.finish_v = self.finish_v, self.start_v
+            if event.type == pygame.KEYUP and event.key == pygame.K_a and self.turn_left:
+                if self.objects[1].get_type() != 3:
+                    self.objects[1].change_type(3)
+                    if not self.in_finish:
+                        self.start_v, self.finish_v = self.finish_v, self.start_v
+            if event.type == pygame.KEYUP and event.key == pygame.K_s and self.turn_down:
+                if self.objects[1].get_type() != 2:
+                    self.objects[1].change_type(2)
+                    if not self.in_finish:
+                        self.start_v, self.finish_v = self.finish_v, self.start_v
+            if event.type == pygame.KEYUP and event.key == pygame.K_d and self.turn_right:
+                if self.objects[1].get_type() != 1:
+                    self.objects[1].change_type(1)
+                    if not self.in_finish:
+                        self.start_v, self.finish_v = self.finish_v, self.start_v
             for object in self.objects:
                 object.check_event(event)
     
     def genPacmanImg(self):
-        conditions = []
+        conditions = list()
         conditions.append([])
         for i in range(3):
             conditions[0].append(pygame.transform.scale(pygame.image.load("./Entity/Pacman/pacman" + str(i + 1) + "Up.png"), (20, 20)))
@@ -73,7 +85,7 @@ class game():
     
     def set_menu(self):
         self.state = STATES["menu"]
-        self.objects = []
+        self.objects.clear()
         self.objects.append(Button([pygame.transform.scale(pygame.image.load("./Entity/Buttons/ButtonNotPressed.png"), (100, 25)),
                                     pygame.transform.scale(pygame.image.load("./Entity/Buttons/ButtonPreesed.png"), (100, 25))],
                                     [self.screen_size[0] // 2 - 50, self.screen_size[1] / 2 - 60, 100, 25], self.set_game))
@@ -86,7 +98,7 @@ class game():
     def set_game(self):
         self.counter = Counter()
         self.state = STATES["game"]
-        self.objects = []
+        self.objects.clear()
         self.objects.append(GameField([pygame.transform.scale(pygame.image.load("./Entity/Map.png"),
                                         (424, 468))], [0, 0, 424, 468]))
         self.objects.append(Pacman(self.genPacmanImg(), [12, 10, 20, 20], 0, 1))
@@ -113,7 +125,7 @@ class game():
 
     def set_settings(self):
         self.state = STATES["settings"]
-        self.objects = []
+        self.objects.clear()
 
     def set_exit(self):
         self.immediately_close = True
@@ -175,13 +187,13 @@ class game():
             if pacman_type == 3 and not self.turn_left:
                 self.objects[1].stop()
             if pacman_type == 0 and self.turn_up:
-                self.objects[1].move()
+                self.objects[1].start_moving()
             if pacman_type == 1 and self.turn_right:
-                self.objects[1].move()
+                self.objects[1].start_moving()
             if pacman_type == 2 and self.turn_down:
-                self.objects[1].move()
+                self.objects[1].start_moving()
             if pacman_type == 3 and self.turn_left:
-                self.objects[1].move()
+                self.objects[1].start_moving()
 
         else:
             if self.in_finish:
