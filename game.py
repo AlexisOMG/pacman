@@ -63,17 +63,18 @@ class game():
     def genPinkGhostImg(self):
         conditions = list()
         conditions.append([])
-        conditions.append(pygame.transform.scale(pygame.image.load("./Entity/Ghost/ghostPinkUp1.png"),(20, 20)))
-        conditions.append(pygame.transform.scale(pygame.image.load("./Entity/Ghost/ghostPinkUp2.png"),(20, 20)))
+        conditions[0].append(pygame.transform.scale(pygame.image.load("./Entity/Ghost/ghostPinkUp1.png"),(20, 20)))
+        conditions[0].append(pygame.transform.scale(pygame.image.load("./Entity/Ghost/ghostPinkUp2.png"),(20, 20)))
         conditions.append([])
-        conditions.append(pygame.transform.scale(pygame.image.load("./Entity/Ghost/ghostPinkRight1.png"),(20, 20)))
-        conditions.append(pygame.transform.scale(pygame.image.load("./Entity/Ghost/ghostPinkRight2.png"),(20, 20)))
+        conditions[1].append(pygame.transform.scale(pygame.image.load("./Entity/Ghost/ghostPinkRight1.png"),(20, 20)))
+        conditions[1].append(pygame.transform.scale(pygame.image.load("./Entity/Ghost/ghostPinkRight2.png"),(20, 20)))
         conditions.append([])
-        conditions.append(pygame.transform.scale(pygame.image.load("./Entity/Ghost/ghostPinkDown1.png"),(20, 20)))
-        conditions.append(pygame.transform.scale(pygame.image.load("./Entity/Ghost/ghostPinkDown2.png"),(20, 20)))
+        conditions[2].append(pygame.transform.scale(pygame.image.load("./Entity/Ghost/ghostPinkDown1.png"),(20, 20)))
+        conditions[2].append(pygame.transform.scale(pygame.image.load("./Entity/Ghost/ghostPinkDown2.png"),(20, 20)))
         conditions.append([])
-        conditions.append(pygame.transform.scale(pygame.image.load("./Entity/Ghost/ghostPinkLeft1.png"),(20, 20)))
-        conditions.append(pygame.transform.scale(pygame.image.load("./Entity/Ghost/ghostPinkLeft2.png"),(20, 20)))
+        conditions[3].append(pygame.transform.scale(pygame.image.load("./Entity/Ghost/ghostPinkLeft1.png"),(20, 20)))
+        conditions[3].append(pygame.transform.scale(pygame.image.load("./Entity/Ghost/ghostPinkLeft2.png"),(20, 20)))
+        return conditions
         
     def genPacmanImg(self):
         conditions = list()
@@ -130,7 +131,7 @@ class game():
                                      [v[0] - 1, v[1] - 1, 2, 2]))                   ## 3-68 элементы - зерна  
             if 28 <= cnt <= 30:
                 self.objects[-1].change_type(1)
-        self.objects.append(Ghost(self.genPinkGhostImg(), [self.graph.coordinates[28], 20, 20]))
+        self.objects.append(Ghost(self.genPinkGhostImg(), [self.graph.coordinates[28][0], self.graph.coordinates[28][1], 20, 20], 0)) ## 69 элемент - розовый призрак
 
 ##        for v in self.graph.coordinates:     # генерация фруктов
 ##            cnt += 1
