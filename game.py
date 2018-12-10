@@ -10,6 +10,7 @@ from pacmanentity import Pacman
 from fruit import Fruit
 from seed import Seed
 from counter import Counter
+from ghostentity import Ghost
 
 class game():
     def __init__(self, screen, screen_size):
@@ -59,6 +60,21 @@ class game():
             for object in self.objects:
                 object.check_event(event)
     
+    def genPinkGhostImg(self):
+        conditions = list()
+        conditions.append([])
+        conditions.append(pygame.transform.scale(pygame.image.load("./Entity/Ghost/ghostPinkUp1.png"),(20, 20)))
+        conditions.append(pygame.transform.scale(pygame.image.load("./Entity/Ghost/ghostPinkUp2.png"),(20, 20)))
+        conditions.append([])
+        conditions.append(pygame.transform.scale(pygame.image.load("./Entity/Ghost/ghostPinkRight1.png"),(20, 20)))
+        conditions.append(pygame.transform.scale(pygame.image.load("./Entity/Ghost/ghostPinkRight2.png"),(20, 20)))
+        conditions.append([])
+        conditions.append(pygame.transform.scale(pygame.image.load("./Entity/Ghost/ghostPinkDown1.png"),(20, 20)))
+        conditions.append(pygame.transform.scale(pygame.image.load("./Entity/Ghost/ghostPinkDown2.png"),(20, 20)))
+        conditions.append([])
+        conditions.append(pygame.transform.scale(pygame.image.load("./Entity/Ghost/ghostPinkLeft1.png"),(20, 20)))
+        conditions.append(pygame.transform.scale(pygame.image.load("./Entity/Ghost/ghostPinkLeft2.png"),(20, 20)))
+        
     def genPacmanImg(self):
         conditions = list()
         conditions.append([])
@@ -100,8 +116,8 @@ class game():
         self.state = STATES["game"]
         self.objects.clear()
         self.objects.append(GameField([pygame.transform.scale(pygame.image.load("./Entity/Map.png"),
-                                        (424, 468))], [0, 0, 424, 468]))
-        self.objects.append(Pacman(self.genPacmanImg(), [12, 10, 20, 20], 0, 1))
+                                        (424, 468))], [0, 0, 424, 468]))            ## 0 элемент - поле
+        self.objects.append(Pacman(self.genPacmanImg(), [12, 10, 20, 20], 0, 1))    ## 1 элемент - пакман
         self.start_v = 0
         self.finish_v = 1
         cnt = -1
@@ -111,9 +127,10 @@ class game():
             name_off = "./Entity/Fruit/seedOff.png"
             self.objects.append(Seed([[pygame.transform.scale(pygame.image.load(name_on), (2, 2))],
                                      [pygame.transform.scale(pygame.image.load(name_off), (2, 2))]],
-                                     [v[0] - 1, v[1] - 1, 2, 2]))
+                                     [v[0] - 1, v[1] - 1, 2, 2]))                   ## 3-68 элементы - зерна  
             if 28 <= cnt <= 30:
                 self.objects[-1].change_type(1)
+        self.objects.append(Ghost(self.genPinkGhostImg(), [self.graph.coordinates[28], 20, 20]))
 
 ##        for v in self.graph.coordinates:     # генерация фруктов
 ##            cnt += 1
