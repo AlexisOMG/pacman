@@ -42,21 +42,33 @@ class game():
                     self.objects[1].change_type(0)
                     if not self.in_finish:
                         self.start_v, self.finish_v = self.finish_v, self.start_v
+                    else:
+                        self.objects[1].set_coordinates(self.graph.coordinates[self.finish_v][0] - 10,
+                                                        self.graph.coordinates[self.finish_v][1] - 10)
             if event.type == pygame.KEYUP and event.key == pygame.K_a and self.turn_left:
                 if self.objects[1].get_type() != 3:
                     self.objects[1].change_type(3)
                     if not self.in_finish:
                         self.start_v, self.finish_v = self.finish_v, self.start_v
+                    else:
+                        self.objects[1].set_coordinates(self.graph.coordinates[self.finish_v][0] - 10,
+                                                        self.graph.coordinates[self.finish_v][1] - 10)
             if event.type == pygame.KEYUP and event.key == pygame.K_s and self.turn_down:
                 if self.objects[1].get_type() != 2:
                     self.objects[1].change_type(2)
                     if not self.in_finish:
                         self.start_v, self.finish_v = self.finish_v, self.start_v
+                    else:
+                        self.objects[1].set_coordinates(self.graph.coordinates[self.finish_v][0] - 10,
+                                                        self.graph.coordinates[self.finish_v][1] - 10)
             if event.type == pygame.KEYUP and event.key == pygame.K_d and self.turn_right:
                 if self.objects[1].get_type() != 1:
                     self.objects[1].change_type(1)
                     if not self.in_finish:
                         self.start_v, self.finish_v = self.finish_v, self.start_v
+                    else:
+                        self.objects[1].set_coordinates(self.graph.coordinates[self.finish_v][0] - 10,
+                                                        self.graph.coordinates[self.finish_v][1] - 10)
             for object in self.objects:
                 object.check_event(event)
 
