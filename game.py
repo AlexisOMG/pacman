@@ -29,6 +29,7 @@ class game():
         self.turn_down = False
         self.counter = Counter()
         self.in_finish = False
+        self.fruit_index = 0
 
     def process_events(self, events):
         for event in events:
@@ -70,7 +71,7 @@ class game():
                                                         self.graph.coordinates[self.finish_v][1] - 10)
             for object in self.objects:
                 object.check_event(event)
-    
+
     def genPacmanImg(self):
         conditions = list()
         conditions.append([])
@@ -93,8 +94,8 @@ class game():
         for i in range(11):
             conditions[4].append(pygame.transform.scale(pygame.image.load("./Entity/Pacman/pacmanDie" + str(i + 1) + ".png"), (20, 20)))
         return conditions
-            
-    
+
+
     def set_menu(self):
         self.state = STATES["menu"]
         self.objects.clear()
@@ -127,15 +128,19 @@ class game():
             if 28 <= cnt <= 30:
                 self.objects[-1].change_type(1)
 
-##        for v in self.graph.coordinates:     # генерация фруктов
-##            cnt += 1
-##            if ( 28 <= cnt <= 30):
-##                continue
-##            else:
-##                i = random.randint(1, 5)
-##                name = "./Entity/Fruit/fruit" + str(i) + ".png"
-##                self.objects.append(Fruit([pygame.transform.scale(pygame.image.load(name), (15, 15))], [v[0] - 5, v[1] - 8, 10, 10]))
-
+        cnt = -1
+        cnt = random.randint(0, 66)    # генерация фруктов
+        while (28 <= cnt <= 30):
+                cnt = random.randint(0, 66)
+        v = self.graph.coordinates[cnt]
+        self.objects[cnt + 2].change_type(1)
+        i = random.randint(1, 5)
+        self.fruit_index = len(self.objects)
+        name_on = "./Entity/Fruit/fruit" + str(i) + ".png"
+        name_off = "./Entity/Fruit/seedOff.png"
+        self.objects.append(Fruit([[pygame.transform.scale(pygame.image.load(name_on), (15, 15))],
+                                 [pygame.transform.scale(pygame.image.load(name_off), (15, 15))]],
+                                 [v[0] - 5, v[1] - 8, 15, 15]))
     def set_settings(self):
         self.state = STATES["settings"]
         self.objects.clear()
@@ -168,6 +173,11 @@ class game():
 
     def eat_seed(self):
         if self.state == STATES["game"]:
+            if not(self.objects[self.fruit_index].getType()):
+                rect = self.objects[self.fruit_index].getRect()
+                if self.objects[1].collide_with([rect[0] + rect[2] // 2, rect[1] + rect[3] // 2]):
+                    self.objects[self.fruit_index].change_type(1)
+                    self.counter.updatePoints(100)
             if not(self.objects[self.finish_v + 2].getType()):
                 if self.objects[1].collide_with(self.graph.coordinates[self.finish_v]):
                     self.objects[self.finish_v + 2].change_type(1)
