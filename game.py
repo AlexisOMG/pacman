@@ -30,6 +30,7 @@ class game():
         self.turn_down = False
         self.counter = Counter()
         self.in_finish = False
+        self.fruit_index = 0
 
     def process_events(self, events):
         for event in events:
@@ -42,21 +43,41 @@ class game():
                     self.objects[1].change_type(0)
                     if not self.in_finish:
                         self.start_v, self.finish_v = self.finish_v, self.start_v
+                    else:
+                        self.objects[1].start_moving_to_point([self.graph.coordinates[self.finish_v][0] - 10,
+                                                               self.graph.coordinates[self.finish_v][1] - 10])
+                        ##self.objects[1].set_coordinates(self.graph.coordinates[self.finish_v][0] - 10,
+                        ##                                self.graph.coordinates[self.finish_v][1] - 10)
             if event.type == pygame.KEYUP and event.key == pygame.K_a and self.turn_left:
                 if self.objects[1].get_type() != 3:
                     self.objects[1].change_type(3)
                     if not self.in_finish:
                         self.start_v, self.finish_v = self.finish_v, self.start_v
+                    else:
+                        self.objects[1].start_moving_to_point([self.graph.coordinates[self.finish_v][0] - 10,
+                                                               self.graph.coordinates[self.finish_v][1] - 10])
+                        ##self.objects[1].set_coordinates(self.graph.coordinates[self.finish_v][0] - 10,
+                        ##                                self.graph.coordinates[self.finish_v][1] - 10)
             if event.type == pygame.KEYUP and event.key == pygame.K_s and self.turn_down:
                 if self.objects[1].get_type() != 2:
                     self.objects[1].change_type(2)
                     if not self.in_finish:
                         self.start_v, self.finish_v = self.finish_v, self.start_v
+                    else:
+                        self.objects[1].start_moving_to_point([self.graph.coordinates[self.finish_v][0] - 10,
+                                                               self.graph.coordinates[self.finish_v][1] - 10])
+                        ##self.objects[1].set_coordinates(self.graph.coordinates[self.finish_v][0] - 10,
+                        ##                                self.graph.coordinates[self.finish_v][1] - 10)
             if event.type == pygame.KEYUP and event.key == pygame.K_d and self.turn_right:
                 if self.objects[1].get_type() != 1:
                     self.objects[1].change_type(1)
                     if not self.in_finish:
                         self.start_v, self.finish_v = self.finish_v, self.start_v
+                    else:
+                        self.objects[1].start_moving_to_point([self.graph.coordinates[self.finish_v][0] - 10,
+                                                               self.graph.coordinates[self.finish_v][1] - 10])
+                        ##self.objects[1].set_coordinates(self.graph.coordinates[self.finish_v][0] - 10,
+                        ##                                self.graph.coordinates[self.finish_v][1] - 10)
             for object in self.objects:
                 object.check_event(event)
     
@@ -98,9 +119,10 @@ class game():
         for i in range(11):
             conditions[4].append(pygame.transform.scale(pygame.image.load("./Entity/Pacman/pacmanDie" + str(i + 1) + ".png"), (20, 20)))
         return conditions
-            
-    
+
+
     def set_menu(self):
+        pygame.mixer.Sound('./SoundsEffect/pacman_intermission.wav').play()
         self.state = STATES["menu"]
         self.objects.clear()
         self.objects.append(Button([pygame.transform.scale(pygame.image.load("./Entity/Buttons/ButtonNotPressed.png"), (100, 25)),
@@ -112,15 +134,16 @@ class game():
         self.objects.append(Button([pygame.transform.scale(pygame.image.load("./Entity/Buttons/ButtonExitNotPresed.png"), (100, 25)),
                                     pygame.transform.scale(pygame.image.load("./Entity/Buttons/ButtonExitPresed.png"), (100, 25))],
                                     [self.screen_size[0] // 2 - 50, self.screen_size[1] / 2, 100, 25], self.set_exit))
+
     def set_game(self):
         self.counter = Counter()
         self.state = STATES["game"]
         self.objects.clear()
         self.objects.append(GameField([pygame.transform.scale(pygame.image.load("./Entity/Map.png"),
-                                        (424, 468))], [0, 0, 424, 468]))            ## 0 элемент - поле
-        self.objects.append(Pacman(self.genPacmanImg(), [12, 10, 20, 20], 0, 1))    ## 1 элемент - пакман
-        self.start_v = 0
-        self.finish_v = 1
+                                        (424, 468))], [0, 0, 424, 468]))
+        self.objects.append(Pacman(self.genPacmanImg(), [229, 255, 20, 20], 0, 1))
+        self.start_v = 33
+        self.finish_v = 34
         cnt = -1
         for v in self.graph.coordinates:
             cnt += 1
@@ -133,15 +156,19 @@ class game():
                 self.objects[-1].change_type(1)
         self.objects.append(Ghost(self.genPinkGhostImg(), [self.graph.coordinates[28][0], self.graph.coordinates[28][1], 20, 20], 0)) ## 69 элемент - розовый призрак
 
-##        for v in self.graph.coordinates:     # генерация фруктов
-##            cnt += 1
-##            if ( 28 <= cnt <= 30):
-##                continue
-##            else:
-##                i = random.randint(1, 5)
-##                name = "./Entity/Fruit/fruit" + str(i) + ".png"
-##                self.objects.append(Fruit([pygame.transform.scale(pygame.image.load(name), (15, 15))], [v[0] - 5, v[1] - 8, 10, 10]))
-
+        cnt = -1
+        cnt = random.randint(0, 66)    # генерация фруктов
+        while (28 <= cnt <= 30):
+                cnt = random.randint(0, 66)
+        v = self.graph.coordinates[cnt]
+        self.objects[cnt + 2].change_type(1)
+        i = random.randint(1, 5)
+        self.fruit_index = len(self.objects)
+        name_on = "./Entity/Fruit/fruit" + str(i) + ".png"
+        name_off = "./Entity/Fruit/seedOff.png"
+        self.objects.append(Fruit([[pygame.transform.scale(pygame.image.load(name_on), (15, 15))],
+                                 [pygame.transform.scale(pygame.image.load(name_off), (15, 15))]],
+                                 [v[0] - 5, v[1] - 8, 15, 15]))
     def set_settings(self):
         self.state = STATES["settings"]
         self.objects.clear()
@@ -164,6 +191,7 @@ class game():
         if self.state == STATES["game"]:
             self.eat_seed()
             self.check_finish()
+            self.objects[1].move_to_point()
             self.objects[1].move()
 
 
@@ -174,10 +202,17 @@ class game():
 
     def eat_seed(self):
         if self.state == STATES["game"]:
+            if not(self.objects[self.fruit_index].getType()):
+                rect = self.objects[self.fruit_index].getRect()
+                if self.objects[1].collide_with([rect[0] + rect[2] // 2, rect[1] + rect[3] // 2]):
+                    self.objects[self.fruit_index].change_type(1)
+                    self.counter.updatePoints(100)
+                    pygame.mixer.Sound('./SoundsEffect/pacman_eatfruit.wav').play()
             if not(self.objects[self.finish_v + 2].getType()):
                 if self.objects[1].collide_with(self.graph.coordinates[self.finish_v]):
                     self.objects[self.finish_v + 2].change_type(1)
                     self.counter.updatePoints(10)
+                    pygame.mixer.Sound('./SoundsEffect/pacman_chomp.wav').play()
 
     def check_finish(self):
         if self.objects[1].collide_with(self.graph.coordinates[self.finish_v]):

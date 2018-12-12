@@ -7,7 +7,7 @@ class Seed(Entity):
         self.allConditions = conditions
         self.conditions = []
         self.change_type(0) #0 - семечко не съедено, 1 - семечко съедено
-        
+
 
     def change_type(self, type):
         self.type = type
