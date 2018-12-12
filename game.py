@@ -154,7 +154,7 @@ class game():
                                      [v[0] - 1, v[1] - 1, 2, 2]))                   ## 3-68 элементы - зерна  
             if 28 <= cnt <= 30:
                 self.objects[-1].change_type(1)
-        self.objects.append(Ghost(self.genPinkGhostImg(), [self.graph.coordinates[28][0], self.graph.coordinates[28][1], 20, 20], 0)) ## 69 элемент - розовый призрак
+        self.objects.append(Ghost(self.genPinkGhostImg(), [self.graph.coordinates[29][0], self.graph.coordinates[29][1], 20, 20], 0)) ## 69 элемент - розовый призрак
 
         cnt = -1
         cnt = random.randint(0, 66)    # генерация фруктов
@@ -169,6 +169,9 @@ class game():
         self.objects.append(Fruit([[pygame.transform.scale(pygame.image.load(name_on), (15, 15))],
                                  [pygame.transform.scale(pygame.image.load(name_off), (15, 15))]],
                                  [v[0] - 5, v[1] - 8, 15, 15]))
+        #self.objects[69].move_to_point([self.graph.coordinates[29][0], self.graph.coordinates[29][1]])
+        self.objects[69].start_moving_to_point([self.graph.coordinates[23][0], self.graph.coordinates[23][1]])
+        
     def set_settings(self):
         self.state = STATES["settings"]
         self.objects.clear()
@@ -193,7 +196,7 @@ class game():
             self.check_finish()
             self.objects[1].move_to_point()
             self.objects[1].move()
-
+            self.objects[69].move_to_point()
 
     def next_state(self):
         if self.state == STATES["game"]:
