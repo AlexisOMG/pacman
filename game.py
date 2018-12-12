@@ -116,7 +116,7 @@ class game():
         self.objects.clear()
         self.objects.append(GameField([pygame.transform.scale(pygame.image.load("./Entity/Map.png"),
                                         (424, 468))], [0, 0, 424, 468]))
-        self.objects.append(Pacman(self.genPacmanImg(), [279, 260, 20, 20], 0, 1))
+        self.objects.append(Pacman(self.genPacmanImg(), [229, 255, 20, 20], 0, 1))
         self.start_v = 33
         self.finish_v = 34
         cnt = -1
