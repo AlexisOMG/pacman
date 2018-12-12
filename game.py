@@ -33,7 +33,7 @@ class game():
         self.in_finish = False
         self.fruit_index = 0
         self.counterOfEatenFruits = 0
-        self.GameOver = False
+        self.gameover_exists = False
 
     def process_events(self, events):
         for event in events:
@@ -189,7 +189,9 @@ class game():
 
     def game_logic(self):
         if (self.finish_game()):
-            self.objects.append(GameOver(self.genGameOverImg(), [88, 150, 448, 248], 0))
+            if not self.gameover_exists:
+                self.objects.append(GameOver(self.genGameOverImg(), [88, 150, 448, 248], 0))
+                self.gameover_exists = True
         else:
             if self.state == STATES["game"]:
                 self.eat_seed()
@@ -218,7 +220,6 @@ class game():
                     self.counter.updatePoints(10)
                     pygame.mixer.Sound('./SoundsEffect/pacman_chomp.wav').play()
                     self.counterOfEatenFruits += 1
-                    print(self.counterOfEatenFruits)
 
     def check_finish(self):
         if self.objects[1].collide_with(self.graph.coordinates[self.finish_v]):
