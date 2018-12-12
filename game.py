@@ -205,6 +205,10 @@ class game():
             for v_num in adjVertex:
                 v = self.graph.coordinates[v_num]
                 move_vector = [v[0] - from_coord[0], v[1] - from_coord[1]]
+                if -3 <= move_vector[0] <= 3:
+                    move_vector[0] = 0
+                if -3 <= move_vector[1] <= 3:
+                    move_vector[1] = 0
                 if move_vector[0] > 0:
                     self.turn_right = True
                 if move_vector[0] < 0:
