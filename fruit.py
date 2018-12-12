@@ -12,6 +12,6 @@ class Fruit(Entity):
     def change_type(self, type):
         self.type = type
         self.conditions = self.allConditions[type]
-
+        
     def getType(self):
         return self.type

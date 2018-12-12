@@ -97,6 +97,7 @@ class game():
 
 
     def set_menu(self):
+        pygame.mixer.Sound('./SoundsEffect/pacman_intermission.wav').play()
         self.state = STATES["menu"]
         self.objects.clear()
         self.objects.append(Button([pygame.transform.scale(pygame.image.load("./Entity/Buttons/ButtonNotPressed.png"), (100, 25)),
@@ -108,15 +109,16 @@ class game():
         self.objects.append(Button([pygame.transform.scale(pygame.image.load("./Entity/Buttons/ButtonExitNotPresed.png"), (100, 25)),
                                     pygame.transform.scale(pygame.image.load("./Entity/Buttons/ButtonExitPresed.png"), (100, 25))],
                                     [self.screen_size[0] // 2 - 50, self.screen_size[1] / 2, 100, 25], self.set_exit))
+
     def set_game(self):
         self.counter = Counter()
         self.state = STATES["game"]
         self.objects.clear()
         self.objects.append(GameField([pygame.transform.scale(pygame.image.load("./Entity/Map.png"),
                                         (424, 468))], [0, 0, 424, 468]))
-        self.objects.append(Pacman(self.genPacmanImg(), [12, 10, 20, 20], 0, 1))
-        self.start_v = 0
-        self.finish_v = 1
+        self.objects.append(Pacman(self.genPacmanImg(), [229, 255, 20, 20], 0, 1))
+        self.start_v = 33
+        self.finish_v = 34
         cnt = -1
         for v in self.graph.coordinates:
             cnt += 1
@@ -178,10 +180,12 @@ class game():
                 if self.objects[1].collide_with([rect[0] + rect[2] // 2, rect[1] + rect[3] // 2]):
                     self.objects[self.fruit_index].change_type(1)
                     self.counter.updatePoints(100)
+                    pygame.mixer.Sound('./SoundsEffect/pacman_eatfruit.wav').play()
             if not(self.objects[self.finish_v + 2].getType()):
                 if self.objects[1].collide_with(self.graph.coordinates[self.finish_v]):
                     self.objects[self.finish_v + 2].change_type(1)
                     self.counter.updatePoints(10)
+                    pygame.mixer.Sound('./SoundsEffect/pacman_chomp.wav').play()
 
     def check_finish(self):
         if self.objects[1].collide_with(self.graph.coordinates[self.finish_v]):
