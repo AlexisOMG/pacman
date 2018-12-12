@@ -1,5 +1,6 @@
 import pygame
 from entity import Entity
+from math import fabs
 
 class Pacman(Entity):
     def __init__(self, conditions, rect, imgState = 0, speed = 1):
@@ -9,10 +10,28 @@ class Pacman(Entity):
         self.allConditions = conditions
         self.conditions = []
         self.change_type(1) #Направление пакмана 0-вверх, 1-вправо, 2-вниз, 3-влево, 4-смерть.
+        self.target_achieved = True
+        self.target = [0, 0]
 
     def change_type(self, type):
         self.type = type
         self.conditions = self.allConditions[type]
+
+    def move_to_point(self):
+        if not self.target_achieved:
+            if self.target[0] == self.rect[0] and self.target[1] == self.rect[1]:
+                self.target_achieved = True
+            else:
+                dx = self.target[0] - self.rect[0]
+                dy = self.target[1] - self.rect[1]
+                if fabs(dx) > fabs(dy):
+                    self.rect[0] += dx // int(fabs(dx))
+                else:
+                    self.rect[1] += dy // int(fabs(dy))
+
+    def start_moving_to_point(self, point):
+        self.target = point
+        self.target_achieved = False
 
     def get_type(self):
         return self.type
@@ -31,7 +50,7 @@ class Pacman(Entity):
 
 
     def move(self):
-        if self.IsMoving:
+        if self.IsMoving and self.target_achieved:
             if self.type == 0:
                 self.rect[1] -= self.speed
             elif self.type == 1:
