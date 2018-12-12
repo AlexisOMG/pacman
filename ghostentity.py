@@ -28,10 +28,10 @@ class Ghost(Entity):
             else:
                 dx = self.target[0] - self.rect[0]
                 dy = self.target[1] - self.rect[1]
-                if fabs(dx) > fabs(dy):
-                    self.rect[0] += dx // int(fabs(dx))
-                else:
+                if fabs(dy) != 0:
                     self.rect[1] += dy // int(fabs(dy))
+                elif dx != 0:
+                    self.rect[0] += dx // int(fabs(dx))
 
     def start_moving_to_point(self, point):
         self.target = point
