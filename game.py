@@ -10,6 +10,8 @@ from pacmanentity import Pacman
 from fruit import Fruit
 from seed import Seed
 from counter import Counter
+from PIL import Image, ImageSequence
+from GameOver import GameOver
 
 class game():
     def __init__(self, screen, screen_size):
@@ -30,6 +32,8 @@ class game():
         self.counter = Counter()
         self.in_finish = False
         self.fruit_index = 0
+        self.counterOfEatenFruits = 0
+        self.GameOver = False
 
     def process_events(self, events):
         for event in events:
@@ -103,6 +107,14 @@ class game():
             conditions[4].append(pygame.transform.scale(pygame.image.load("./Entity/Pacman/pacmanDie" + str(i + 1) + ".png"), (20, 20)))
         return conditions
 
+    def genGameOverImg(self):
+        conditions = list()
+        for i in range(10):
+            conditions.append(pygame.transform.scale(pygame.image.load("./Entity/GameOver/GameOver" + str(i + 1) + ".png"),
+                                        (248, 148)))
+        return conditions
+
+
 
     def set_menu(self):
         pygame.mixer.Sound('./SoundsEffect/pacman_intermission.wav').play()
@@ -151,6 +163,12 @@ class game():
         self.objects.append(Fruit([[pygame.transform.scale(pygame.image.load(name_on), (15, 15))],
                                  [pygame.transform.scale(pygame.image.load(name_off), (15, 15))]],
                                  [v[0] - 5, v[1] - 8, 15, 15]))
+    def finish_game(self):
+        if self.counterOfEatenFruits == 5:  # 63
+            return True
+        else:
+            return False
+
     def set_settings(self):
         self.state = STATES["settings"]
         self.objects.clear()
@@ -170,11 +188,14 @@ class game():
         pygame.display.flip()
 
     def game_logic(self):
-        if self.state == STATES["game"]:
-            self.eat_seed()
-            self.check_finish()
-            self.objects[1].move_to_point()
-            self.objects[1].move()
+        if (self.finish_game()):
+            self.objects.append(GameOver(self.genGameOverImg(), [88, 150, 448, 248], 0))
+        else:
+            if self.state == STATES["game"]:
+                self.eat_seed()
+                self.check_finish()
+                self.objects[1].move_to_point()
+                self.objects[1].move()
 
 
     def next_state(self):
@@ -190,11 +211,14 @@ class game():
                     self.objects[self.fruit_index].change_type(1)
                     self.counter.updatePoints(100)
                     pygame.mixer.Sound('./SoundsEffect/pacman_eatfruit.wav').play()
+
             if not(self.objects[self.finish_v + 2].getType()):
                 if self.objects[1].collide_with(self.graph.coordinates[self.finish_v]):
                     self.objects[self.finish_v + 2].change_type(1)
                     self.counter.updatePoints(10)
                     pygame.mixer.Sound('./SoundsEffect/pacman_chomp.wav').play()
+                    self.counterOfEatenFruits += 1
+                    print(self.counterOfEatenFruits)
 
     def check_finish(self):
         if self.objects[1].collide_with(self.graph.coordinates[self.finish_v]):
