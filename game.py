@@ -131,6 +131,8 @@ class game():
                                     [self.screen_size[0] // 2 - 50, self.screen_size[1] / 2, 100, 25], self.set_exit))
 
     def set_game(self):
+        self.counterOfEatenFruits = 0
+        self.gameover_exists = False
         self.counter = Counter()
         self.state = STATES["game"]
         self.objects.clear()
@@ -164,7 +166,7 @@ class game():
                                  [pygame.transform.scale(pygame.image.load(name_off), (15, 15))]],
                                  [v[0] - 5, v[1] - 8, 15, 15]))
     def finish_game(self):
-        if self.counterOfEatenFruits == 5:  # 63
+        if self.counterOfEatenFruits == 63:  # 63
             return True
         else:
             return False
