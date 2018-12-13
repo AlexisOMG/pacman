@@ -41,11 +41,11 @@ class Ghost(Entity):
         pointsArrOfPacman = Pacman.getRect()
         meanPacmanX = (2 * pointsArrOfPacman[0] + pointsArrOfPacman[2]) // 2
         meanPacmanY = (2 * pointsArrOfPacman[1] + pointsArrOfPacman[3]) // 2
-        radiusPacman = max(pointsArrOfPacman[2]) // 2, pointsArrOfPacman[3]) // 2)
+        radiusPacman = max(pointsArrOfPacman[2] // 2, pointsArrOfPacman[3] // 2)
         pointsArrGhost = self.getRect()
         meanGhostX = (2 * pointsArrGhost[0] + pointsArrGhost[2]) // 2
         meanGhostY = (2 * pointsArrGhost[1] + pointsArrGhostPacman[3]) // 2
-        radiusGhost = max(pointsArrGhost[2]) // 2, pointsArrGhost[3]) // 2)
+        radiusGhost = max(pointsArrGhost[2] // 2, pointsArrGhost[3] // 2)
         if ((meanPacmanX - meanGhostX) ** 2 + (meanPacmanY - meanGhostY) ** 2) ** 0.5 <= radiusPacman + radiusGhost:
             return True
         else:
