@@ -1,6 +1,7 @@
 import pygame
 from entity import Entity
 from math import fabs
+import random
 
 class Ghost(Entity):
     def __init__(self, conditions, rect, imgState = 0, speed = 1):
@@ -36,6 +37,15 @@ class Ghost(Entity):
     def start_moving_to_point(self, point):
         self.target = point
         self.target_achieved = False
+        
+    def choose_target(self, vertex, graph):
+        vertexes = graph.adjVertex[vertex]
+        self.target = graph.coordinates[vertexes[random.randint(0, len(vertexes) - 1)]]
+        self.target_achieved = False
+        
+    def check_target_achieved(self):
+        return self.target_achieved
+        
 
     '''def move_to_point(self, point):
         self.target = point

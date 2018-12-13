@@ -11,6 +11,7 @@ from fruit import Fruit
 from seed import Seed
 from counter import Counter
 from ghostentity import Ghost
+from GameOver import GameOver
 
 class game():
     def __init__(self, screen, screen_size):
@@ -31,6 +32,8 @@ class game():
         self.counter = Counter()
         self.in_finish = False
         self.fruit_index = 0
+        self.counterOfEatenFruits = 0
+        self.gameover_exists = False
 
     def process_events(self, events):
         for event in events:
@@ -120,6 +123,14 @@ class game():
             conditions[4].append(pygame.transform.scale(pygame.image.load("./Entity/Pacman/pacmanDie" + str(i + 1) + ".png"), (20, 20)))
         return conditions
 
+    def genGameOverImg(self):
+        conditions = list()
+        for i in range(10):
+            conditions.append(pygame.transform.scale(pygame.image.load("./Entity/GameOver/GameOver" + str(i + 1) + ".png"),
+                                        (248, 148)))
+        return conditions
+
+
 
     def set_menu(self):
         pygame.mixer.Sound('./SoundsEffect/pacman_intermission.wav').play()
@@ -136,6 +147,8 @@ class game():
                                     [self.screen_size[0] // 2 - 50, self.screen_size[1] / 2, 100, 25], self.set_exit))
 
     def set_game(self):
+        self.counterOfEatenFruits = 0
+        self.gameover_exists = False
         self.counter = Counter()
         self.state = STATES["game"]
         self.objects.clear()
@@ -170,8 +183,14 @@ class game():
                                  [pygame.transform.scale(pygame.image.load(name_off), (15, 15))]],
                                  [v[0] - 5, v[1] - 8, 15, 15]))
         #self.objects[69].move_to_point([self.graph.coordinates[29][0], self.graph.coordinates[29][1]])
-        self.objects[69].start_moving_to_point([self.graph.coordinates[23][0], self.graph.coordinates[23][1]])
-        
+        self.objects[69].start_moving_to_point([self.graph.coordinates[23][0] - 10, self.graph.coordinates[23][1] - 10])
+
+    def finish_game(self):
+        if self.counterOfEatenFruits == 63:  # 63
+            return True
+        else:
+            return False
+
     def set_settings(self):
         self.state = STATES["settings"]
         self.objects.clear()
@@ -191,12 +210,19 @@ class game():
         pygame.display.flip()
 
     def game_logic(self):
-        if self.state == STATES["game"]:
-            self.eat_seed()
-            self.check_finish()
-            self.objects[1].move_to_point()
-            self.objects[1].move()
-            self.objects[69].move_to_point()
+        if (self.finish_game()):
+            if not self.gameover_exists:
+                self.objects.append(GameOver(self.genGameOverImg(), [88, 150, 448, 248], 0))
+                self.gameover_exists = True
+        else:
+            if self.state == STATES["game"]:
+                self.eat_seed()
+                self.check_finish()
+                self.objects[1].move_to_point()
+                self.objects[1].move()
+                if (self.objects[69].check_target_achieved()):
+                    #self.objects[69].choose_target( ,self.grah)
+                self.objects[69].move_to_point()
 
     def next_state(self):
         if self.state == STATES["game"]:
@@ -211,11 +237,13 @@ class game():
                     self.objects[self.fruit_index].change_type(1)
                     self.counter.updatePoints(100)
                     pygame.mixer.Sound('./SoundsEffect/pacman_eatfruit.wav').play()
+
             if not(self.objects[self.finish_v + 2].getType()):
                 if self.objects[1].collide_with(self.graph.coordinates[self.finish_v]):
                     self.objects[self.finish_v + 2].change_type(1)
                     self.counter.updatePoints(10)
                     pygame.mixer.Sound('./SoundsEffect/pacman_chomp.wav').play()
+                    self.counterOfEatenFruits += 1
 
     def check_finish(self):
         if self.objects[1].collide_with(self.graph.coordinates[self.finish_v]):
@@ -226,6 +254,10 @@ class game():
             for v_num in adjVertex:
                 v = self.graph.coordinates[v_num]
                 move_vector = [v[0] - from_coord[0], v[1] - from_coord[1]]
+                if -3 <= move_vector[0] <= 3:
+                    move_vector[0] = 0
+                if -3 <= move_vector[1] <= 3:
+                    move_vector[1] = 0
                 if move_vector[0] > 0:
                     self.turn_right = True
                 if move_vector[0] < 0:

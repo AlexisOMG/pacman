@@ -4,7 +4,7 @@ import time
 
 def main():
     SIZE = 424, 518
-    screen = pygame.display.set_mode(SIZE, pygame.RESIZABLE)
+    screen = pygame.display.set_mode(SIZE)
     gm = game(screen, SIZE)
     cur_time = time.time()
     while not gm.immediately_close:
