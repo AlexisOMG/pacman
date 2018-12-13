@@ -1,6 +1,7 @@
 import pygame
 from entity import Entity
 from math import fabs
+import random
 
 class Ghost(Entity):
     def __init__(self, conditions, rect, imgState = 0, speed = 1):
@@ -28,14 +29,27 @@ class Ghost(Entity):
             else:
                 dx = self.target[0] - self.rect[0]
                 dy = self.target[1] - self.rect[1]
-                if fabs(dx) > fabs(dy):
-                    self.rect[0] += dx // int(fabs(dx))
-                else:
+                if fabs(dy) != 0:
                     self.rect[1] += dy // int(fabs(dy))
+                elif dx != 0:
+                    self.rect[0] += dx // int(fabs(dx))
 
     def start_moving_to_point(self, point):
-        self.target = point
+        self.target[0] = point[0] - 10
+        self.target[1] = point[1] - 10
         self.target_achieved = False
+        
+    def choose_target(self, vertex, graph):
+        vertexes = graph.adjVertex[vertex]
+        choosenVertex = vertexes[random.randint(0, len(vertexes) - 1)]
+        self.target = [graph.coordinates[choosenVertex][0], graph.coordinates[choosenVertex][1]]
+        self.target_achieved = False
+        self.start_moving_to_point(self.target)
+        return choosenVertex
+        
+    def check_target_achieved(self):
+        return self.target_achieved
+        
 
     def connected_with_pacman(self, Pacman):
         pointsArrOfPacman = Pacman.getRect()

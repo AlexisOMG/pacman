@@ -34,6 +34,7 @@ class game():
         self.fruit_index = 0
         self.counterOfEatenFruits = 0
         self.gameover_exists = False
+        self.ghosts = []
 
     def process_events(self, events):
         for event in events:
@@ -186,8 +187,9 @@ class game():
                                  [pygame.transform.scale(pygame.image.load(name_off), (15, 15))]],
                                  [v[0] - 5, v[1] - 8, 15, 15]))
         #self.objects[69].move_to_point([self.graph.coordinates[29][0], self.graph.coordinates[29][1]])
-        self.objects[69].start_moving_to_point([self.graph.coordinates[23][0], self.graph.coordinates[23][1]])
-
+        self.objects[69].start_moving_to_point([self.graph.coordinates[23][0] - 10, self.graph.coordinates[23][1] - 10])
+        self.ghosts.append([69, 23])
+        
     def finish_game(self):
         if self.counterOfEatenFruits == 63:  # 63
             return True
@@ -224,6 +226,8 @@ class game():
                 self.check_finish()
                 self.objects[1].move_to_point()
                 self.objects[1].move()
+                if (self.objects[69].check_target_achieved()):
+                    self.ghosts[0][1] = self.objects[69].choose_target(self.ghosts[0][1], self.graph)
                 self.objects[69].move_to_point()
                 if self.objects[69].connected_with_pacman(self.objects[1]):
                     self.pacman_die()
