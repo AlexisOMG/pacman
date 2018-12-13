@@ -19,8 +19,8 @@ class Ghost(Entity):
     def move(self, dx, dy):
         self.rect[0] += dx
         self.rect[1] += dy
-        
-        
+
+
     def move_to_point(self):
         if not self.target_achieved:
             if self.target[0] == self.rect[0] and self.target[1] == self.rect[1]:
@@ -37,6 +37,21 @@ class Ghost(Entity):
         self.target = point
         self.target_achieved = False
 
+    def connected_with_pacman(self, Pacman):
+        pointsArrOfPacman = Pacman.getRect()
+        meanPacmanX = (2 * pointsArrOfPacman[0] + pointsArrOfPacman[2]) // 2
+        meanPacmanY = (2 * pointsArrOfPacman[1] + pointsArrOfPacman[3]) // 2
+        radiusPacman = max(pointsArrOfPacman[2]) // 2, pointsArrOfPacman[3]) // 2)
+        pointsArrGhost = self.getRect()
+        meanGhostX = (2 * pointsArrGhost[0] + pointsArrGhost[2]) // 2
+        meanGhostY = (2 * pointsArrGhost[1] + pointsArrGhostPacman[3]) // 2
+        radiusGhost = max(pointsArrGhost[2]) // 2, pointsArrGhost[3]) // 2)
+        if ((meanPacmanX - meanGhostX) ** 2 + (meanPacmanY - meanGhostY) ** 2) ** 0.5 <= radiusPacman + radiusGhost:
+            return True
+        else:
+            return False
+
+
     '''def move_to_point(self, point):
         self.target = point
         if self.rect[0] != self.target[0] or self.rect[1] != self.target[1]:
@@ -44,4 +59,3 @@ class Ghost(Entity):
             dy = self.target[1] - self.rect[1]
             self.rect[0] += dx
             self.rect[1] += dy'''
-        
