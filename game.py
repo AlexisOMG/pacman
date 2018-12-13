@@ -102,7 +102,7 @@ class game():
         conditions[3].append(pygame.transform.scale(pygame.image.load("./Entity/Ghost/ghostPinkLeft1.png"),(20, 20)))
         conditions[3].append(pygame.transform.scale(pygame.image.load("./Entity/Ghost/ghostPinkLeft2.png"),(20, 20)))
         return conditions
-        
+
     def genPacmanImg(self):
         conditions = list()
         conditions.append([])
@@ -167,7 +167,7 @@ class game():
             name_off = "./Entity/Fruit/seedOff.png"
             self.objects.append(Seed([[pygame.transform.scale(pygame.image.load(name_on), (2, 2))],
                                      [pygame.transform.scale(pygame.image.load(name_off), (2, 2))]],
-                                     [v[0] - 1, v[1] - 1, 2, 2]))                   ## 3-68 элементы - зерна  
+                                     [v[0] - 1, v[1] - 1, 2, 2]))                   ## 3-68 элементы - зерна
             if 28 <= cnt <= 30:
                 self.objects[-1].change_type(1)
         self.objects.append(Ghost(self.genPinkGhostImg(), [self.graph.coordinates[29][0], self.graph.coordinates[29][1], 20, 20], 0)) ## 69 элемент - розовый призрак
@@ -216,6 +216,7 @@ class game():
         if (self.finish_game()):
             if not self.gameover_exists:
                 self.objects.append(GameOver(self.genGameOverImg(), [88, 150, 448, 248], 0))
+                pygame.mixer.Sound('./SoundsEffect/pacman_death.wav').play()
                 self.gameover_exists = True
         else:
             if self.state == STATES["game"]:
