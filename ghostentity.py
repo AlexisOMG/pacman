@@ -35,13 +35,17 @@ class Ghost(Entity):
                     self.rect[0] += dx // int(fabs(dx))
 
     def start_moving_to_point(self, point):
-        self.target = point
+        self.target[0] = point[0] - 10
+        self.target[1] = point[1] - 10
         self.target_achieved = False
         
     def choose_target(self, vertex, graph):
         vertexes = graph.adjVertex[vertex]
-        self.target = graph.coordinates[vertexes[random.randint(0, len(vertexes) - 1)]]
+        choosenVertex = vertexes[random.randint(0, len(vertexes) - 1)]
+        self.target = [graph.coordinates[choosenVertex][0], graph.coordinates[choosenVertex][1]]
         self.target_achieved = False
+        self.start_moving_to_point(self.target)
+        return choosenVertex
         
     def check_target_achieved(self):
         return self.target_achieved
