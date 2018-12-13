@@ -10,12 +10,8 @@ from pacmanentity import Pacman
 from fruit import Fruit
 from seed import Seed
 from counter import Counter
-<<<<<<< HEAD
 from ghostentity import Ghost
-=======
-from PIL import Image, ImageSequence
 from GameOver import GameOver
->>>>>>> longa_bonga
 
 class game():
     def __init__(self, screen, screen_size):
@@ -186,18 +182,15 @@ class game():
         self.objects.append(Fruit([[pygame.transform.scale(pygame.image.load(name_on), (15, 15))],
                                  [pygame.transform.scale(pygame.image.load(name_off), (15, 15))]],
                                  [v[0] - 5, v[1] - 8, 15, 15]))
-<<<<<<< HEAD
         #self.objects[69].move_to_point([self.graph.coordinates[29][0], self.graph.coordinates[29][1]])
         self.objects[69].start_moving_to_point([self.graph.coordinates[23][0], self.graph.coordinates[23][1]])
-        
-=======
+
     def finish_game(self):
         if self.counterOfEatenFruits == 63:  # 63
             return True
         else:
             return False
 
->>>>>>> longa_bonga
     def set_settings(self):
         self.state = STATES["settings"]
         self.objects.clear()
@@ -217,14 +210,6 @@ class game():
         pygame.display.flip()
 
     def game_logic(self):
-<<<<<<< HEAD
-        if self.state == STATES["game"]:
-            self.eat_seed()
-            self.check_finish()
-            self.objects[1].move_to_point()
-            self.objects[1].move()
-            self.objects[69].move_to_point()
-=======
         if (self.finish_game()):
             if not self.gameover_exists:
                 self.objects.append(GameOver(self.genGameOverImg(), [88, 150, 448, 248], 0))
@@ -235,8 +220,7 @@ class game():
                 self.check_finish()
                 self.objects[1].move_to_point()
                 self.objects[1].move()
-
->>>>>>> longa_bonga
+                self.objects[69].move_to_point()
 
     def next_state(self):
         if self.state == STATES["game"]:
