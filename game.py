@@ -83,7 +83,10 @@ class game():
                         ##                                self.graph.coordinates[self.finish_v][1] - 10)
             for object in self.objects:
                 object.check_event(event)
-    
+
+    def pacman_die(self):
+        self.objects[1].change_type(4)
+
     def genPinkGhostImg(self):
         conditions = list()
         conditions.append([])
@@ -221,6 +224,8 @@ class game():
                 self.objects[1].move_to_point()
                 self.objects[1].move()
                 self.objects[69].move_to_point()
+                if self.objects[69].connected_with_pacman(self.objects[1]):
+                    self.pacman_die()
 
     def next_state(self):
         if self.state == STATES["game"]:
