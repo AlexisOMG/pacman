@@ -36,6 +36,7 @@ class game():
         self.gameover_exists = False
         self.ghosts = []
         self.pacman_alive = True
+        self.kostul = True
 
     def process_events(self, events):
         for event in events:
@@ -124,7 +125,23 @@ class game():
         conditions[3].append(pygame.transform.scale(pygame.image.load("./Entity/Ghost/ghostPinkLeft1.png"),(20, 20)))
         conditions[3].append(pygame.transform.scale(pygame.image.load("./Entity/Ghost/ghostPinkLeft2.png"),(20, 20)))
         return conditions
-
+        
+    def genRedGhostImg(self):
+        conditions = list()
+        conditions.append([])
+        conditions[0].append(pygame.transform.scale(pygame.image.load("./Entity/Ghost/ghostRedUp1.png"),(20, 20)))
+        conditions[0].append(pygame.transform.scale(pygame.image.load("./Entity/Ghost/ghostRedUp2.png"),(20, 20)))
+        conditions.append([])
+        conditions[1].append(pygame.transform.scale(pygame.image.load("./Entity/Ghost/ghostRedRight1.png"),(20, 20)))
+        conditions[1].append(pygame.transform.scale(pygame.image.load("./Entity/Ghost/ghostRedRight2.png"),(20, 20)))
+        conditions.append([])
+        conditions[2].append(pygame.transform.scale(pygame.image.load("./Entity/Ghost/ghostRedDown1.png"),(20, 20)))
+        conditions[2].append(pygame.transform.scale(pygame.image.load("./Entity/Ghost/ghostRedDown2.png"),(20, 20)))
+        conditions.append([])
+        conditions[3].append(pygame.transform.scale(pygame.image.load("./Entity/Ghost/ghostRedLeft1.png"),(20, 20)))
+        conditions[3].append(pygame.transform.scale(pygame.image.load("./Entity/Ghost/ghostRedLeft2.png"),(20, 20)))
+        return conditions
+        
     def genPacmanImg(self):
         conditions = list()
         conditions.append([])
@@ -172,10 +189,12 @@ class game():
                                     [self.screen_size[0] // 2 - 50, self.screen_size[1] / 2, 100, 25], self.set_exit))
 
     def set_game(self):
+        self.kostul = True
         self.counterOfEatenFruits = 0
         self.gameover_exists = False
         self.counter = Counter()
         self.state = STATES["game"]
+        self.ghosts.clear()
         self.objects.clear()
         self.objects.append(GameField([pygame.transform.scale(pygame.image.load("./Entity/Map.png"),
                                         (424, 468))], [0, 0, 424, 468]))
@@ -193,7 +212,8 @@ class game():
             if 28 <= cnt <= 30:
                 self.objects[-1].change_type(1)
         self.objects.append(Ghost(self.genPinkGhostImg(), [self.graph.coordinates[29][0], self.graph.coordinates[29][1], 20, 20], 0)) ## 69 элемент - розовый призрак
-
+        self.objects.append(Ghost(self.genRedGhostImg(), [self.graph.coordinates[28][0], self.graph.coordinates[28][1], 20, 20], 0)) ## 70 элемент - красный призрак
+        
         cnt = -1
         cnt = random.randint(0, 66)    # генерация фруктов
         while (28 <= cnt <= 30):
@@ -210,6 +230,10 @@ class game():
         #self.objects[69].move_to_point([self.graph.coordinates[29][0], self.graph.coordinates[29][1]])
         self.objects[69].start_moving_to_point([self.graph.coordinates[23][0] - 10, self.graph.coordinates[23][1] - 10])
         self.ghosts.append([69, 29, 23])
+        self.objects[70].start_moving_to_point([self.graph.coordinates[29][0] - 10, self.graph.coordinates[29][1] - 10])
+        self.ghosts.append([70, 28, 29])
+        
+        
         
     def finish_game(self):
         if self.counterOfEatenFruits == 63:  # 63
@@ -254,6 +278,22 @@ class game():
                     self.ghosts[0][2] = self.objects[69].choose_target(self.ghosts[0][2], prev_vertex, self.graph)
                 self.objects[69].move_to_point()
                 if self.objects[69].connected_with_pacman(self.objects[1]):
+                    self.pacman_die()
+                    
+                if self.kostul and self.ghosts[0][1] != 29 and self.ghosts[0][1] != 23:
+                    self.objects[70].move_to_point()
+                    if (self.objects[70].check_target_achieved()):
+                        self.objects[70].start_moving_to_point([self.graph.coordinates[24][0] - 10, self.graph.coordinates[24][1] - 10])
+                        self.ghosts[1][1], self.ghosts[1][2] = 29, 24
+                        self.objects[70].move_to_point()
+                        self.kostul = False
+                    
+                if (self.objects[70].check_target_achieved() and not(self.kostul)):
+                    prev_vertex = self.ghosts[1][1]
+                    self.ghosts[1][1] = self.ghosts[1][2]
+                    self.ghosts[1][2] = self.objects[70].choose_target(self.ghosts[1][2], prev_vertex, self.graph)
+                self.objects[70].move_to_point()
+                if self.objects[70].connected_with_pacman(self.objects[1]):
                     self.pacman_die()
 
     def next_state(self):
