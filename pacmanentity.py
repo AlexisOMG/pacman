@@ -17,6 +17,9 @@ class Pacman(Entity):
         self.type = type
         self.conditions = self.allConditions[type]
 
+    def finish_dying(self):
+        return (self.type == 4) and (self.imgState == len(self.conditions) - 1)
+
     def move_to_point(self):
         if not self.target_achieved:
             if self.target[0] == self.rect[0] and self.target[1] == self.rect[1]:

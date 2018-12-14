@@ -35,6 +35,7 @@ class game():
         self.counterOfEatenFruits = 0
         self.gameover_exists = False
         self.ghosts = []
+        self.pacman_alive = True
 
     def process_events(self, events):
         for event in events:
@@ -86,7 +87,20 @@ class game():
                 object.check_event(event)
 
     def pacman_die(self):
-        self.objects[1].change_type(4)
+        if self.pacman_alive:
+            self.objects[1].change_type(4)
+            self.counter.updateHeals()
+            self.pacman_alive = False
+
+    def pacman_rise(self):
+        if self.objects[1].finish_dying():
+            if self.counter.heals > 0:
+                self.pacman_alive = True
+                self.start_v = 33
+                self.finish_v = 34
+                self.objects[1].change_type(1)
+                self.objects[1].imgState = 0
+                self.objects[1].set_coordinates(229, 255)
 
     def genPinkGhostImg(self):
         conditions = list()
@@ -226,6 +240,7 @@ class game():
                 self.check_finish()
                 self.objects[1].move_to_point()
                 self.objects[1].move()
+                self.pacman_rise()
                 if (self.objects[69].check_target_achieved()):
                     prev_vertex = self.ghosts[0][1]
                     self.ghosts[0][1] = self.ghosts[0][2]
