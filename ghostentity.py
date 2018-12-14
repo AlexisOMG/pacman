@@ -39,9 +39,12 @@ class Ghost(Entity):
         self.target[1] = point[1] - 10
         self.target_achieved = False
         
-    def choose_target(self, vertex, graph):
+    def choose_target(self, vertex, prev_vertex, graph):
         vertexes = graph.adjVertex[vertex]
-        choosenVertex = vertexes[random.randint(0, len(vertexes) - 1)]
+        adj_index = random.randint(0, len(vertexes) - 1)
+        while prev_vertex == vertexes[adj_index]:
+            adj_index = random.randint(0, len(vertexes) - 1)
+        choosenVertex = vertexes[adj_index]
         self.target = [graph.coordinates[choosenVertex][0], graph.coordinates[choosenVertex][1]]
         self.target_achieved = False
         self.start_moving_to_point(self.target)
