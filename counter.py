@@ -5,7 +5,7 @@ class Counter():
         my_file = open("hightScore.txt", 'r')
         self.hightScore = int(my_file.read())
         my_file.close()
-        self.heals = 1
+        self.heals = 3
         self.level = 1
         self.points = 0
         self.font = pygame.font.Font('./Font/emulogic.ttf', 12)
