@@ -101,6 +101,13 @@ class game():
                 self.objects[1].change_type(1)
                 self.objects[1].imgState = 0
                 self.objects[1].set_coordinates(229, 255)
+            else:
+                if not self.gameover_exists:
+                    self.objects.append(GameOver(self.genGameOverImg(), [88, 150, 448, 248], 0))
+                    pygame.mixer.Sound('./SoundsEffect/pacman_death.wav').play()
+                    self.gameover_exists = True
+                    self.objects[1].imgState = 0
+                    self.objects[1].conditions = [self.objects[1].conditions[-1]]
 
     def genPinkGhostImg(self):
         conditions = list()
