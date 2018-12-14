@@ -189,6 +189,7 @@ class game():
                                     [self.screen_size[0] // 2 - 50, self.screen_size[1] / 2, 100, 25], self.set_exit))
 
     def set_game(self):
+        self.pacman_alive = True
         self.kostul = True
         self.counterOfEatenFruits = 0
         self.gameover_exists = False
@@ -287,6 +288,8 @@ class game():
                         self.ghosts[1][1], self.ghosts[1][2] = 29, 24
                         self.objects[70].move_to_point()
                         self.kostul = False
+                    if self.objects[70].connected_with_pacman(self.objects[1]):
+                        self.pacman_die()
                     
                 if (self.objects[70].check_target_achieved() and not(self.kostul)):
                     prev_vertex = self.ghosts[1][1]
