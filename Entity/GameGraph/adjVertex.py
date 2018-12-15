@@ -34,7 +34,7 @@ def createAdjVertex():
     adjVertex [31] = [25, 32, 34]
     adjVertex [32] = [20, 31, 40]
     adjVertex [33] = [27, 37, 34]
-    adjVertex [34] = [31, 48, 33]
+    adjVertex [34] = [31, 33, 66]
     adjVertex [35] = [42, 36]
     adjVertex [36] = [26, 35, 37, 44]
     adjVertex [37] = [36, 33, 38]
