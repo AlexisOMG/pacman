@@ -40,11 +40,14 @@ class game():
 
     def process_events(self, events):
         for event in events:
+            if event.type == pygame.KEYUP and event.key == pygame.K_t:
+                print("coords: {}, in finish: {}, start {}: {}, finish {}: {}".format(self.objects[1].rect, self.in_finish, self.start_v, self.graph.coordinates[self.start_v],
+                                                           self.finish_v, self.graph.coordinates[self.finish_v]))
             if event.type == pygame.QUIT:
                 self.immediately_close = True
             if event.type == pygame.KEYUP and event.key == pygame.K_ESCAPE:
                 self.set_menu()
-            if event.type == pygame.KEYUP and event.key == pygame.K_w and self.turn_up:
+            if event.type == pygame.KEYUP and event.key == pygame.K_w and self.turn_up and self.pacman_alive:
                 if self.objects[1].get_type() != 0:
                     self.objects[1].change_type(0)
                     if not self.in_finish:
@@ -54,7 +57,7 @@ class game():
                                                                self.graph.coordinates[self.finish_v][1] - 10])
                         ##self.objects[1].set_coordinates(self.graph.coordinates[self.finish_v][0] - 10,
                         ##                                self.graph.coordinates[self.finish_v][1] - 10)
-            if event.type == pygame.KEYUP and event.key == pygame.K_a and self.turn_left:
+            if event.type == pygame.KEYUP and event.key == pygame.K_a and self.turn_left and self.pacman_alive:
                 if self.objects[1].get_type() != 3:
                     self.objects[1].change_type(3)
                     if not self.in_finish:
@@ -64,7 +67,7 @@ class game():
                                                                self.graph.coordinates[self.finish_v][1] - 10])
                         ##self.objects[1].set_coordinates(self.graph.coordinates[self.finish_v][0] - 10,
                         ##                                self.graph.coordinates[self.finish_v][1] - 10)
-            if event.type == pygame.KEYUP and event.key == pygame.K_s and self.turn_down:
+            if event.type == pygame.KEYUP and event.key == pygame.K_s and self.turn_down and self.pacman_alive:
                 if self.objects[1].get_type() != 2:
                     self.objects[1].change_type(2)
                     if not self.in_finish:
@@ -74,7 +77,7 @@ class game():
                                                                self.graph.coordinates[self.finish_v][1] - 10])
                         ##self.objects[1].set_coordinates(self.graph.coordinates[self.finish_v][0] - 10,
                         ##                                self.graph.coordinates[self.finish_v][1] - 10)
-            if event.type == pygame.KEYUP and event.key == pygame.K_d and self.turn_right:
+            if event.type == pygame.KEYUP and event.key == pygame.K_d and self.turn_right and self.pacman_alive:
                 if self.objects[1].get_type() != 1:
                     self.objects[1].change_type(1)
                     if not self.in_finish:
@@ -92,16 +95,26 @@ class game():
             self.objects[1].change_type(4)
             self.counter.updateHeals()
             self.pacman_alive = False
+            self.turn_right = True
 
     def pacman_rise(self):
         if self.objects[1].finish_dying():
             if self.counter.heals > 0:
+                self.turn_right = True
                 self.pacman_alive = True
+                self.turn_left = False
+                self.turn_right = False
+                self.turn_up = False
+                self.turn_down = False
+                self.pacman_alive = True
+                self.kostul = True
                 self.start_v = 33
                 self.finish_v = 34
+                self.in_finish = True
+                self.gameover_exists = False
                 self.objects[1].change_type(1)
                 self.objects[1].imgState = 0
-                self.objects[1].set_coordinates(229, 255)
+                self.objects[1].set_coordinates(270, 255)
             else:
                 if not self.gameover_exists:
                     self.objects.append(GameOver(self.genGameOverImg(), [88, 150, 448, 248], 0))
